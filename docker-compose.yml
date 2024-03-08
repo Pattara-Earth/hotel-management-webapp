@@ -1,0 +1,45 @@
+version: "3.9"
+services:
+  mysql_hotel:
+    build: ./mysql
+    restart: always
+    ports: 
+      - 3306:3306
+    networks:
+      - app_network
+    
+  phpmyadmin_hotel:
+    image: phpmyadmin
+    restart: always
+    environment: 
+      PMA_HOST: mysql_hotel
+    ports:
+      - 8080:80
+    networks:
+      - app_network
+
+  server_hotel:
+    build: ./server
+    restart: always
+    ports:
+      - 3000:3000
+    networks:
+      - app_network
+    depends_on:
+      - mysql_hotel
+
+  # client:
+  #   build: ./client
+  #   restart: always
+  #   ports:
+  #     - 3000:3000
+  #   container_name: client-hotel
+  #   networks:
+  #     - app-network
+
+networks:
+  app_network:
+    driver: bridge    
+
+
+

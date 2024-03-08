@@ -1,0 +1,11 @@
+
+-- CREATE DATABASE IF NOT EXISTS `hotel` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;	
+-- CREATE DATABASE IF NOT EXISTS `hotel` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+--Example of setting PK FK
+-- CREATE TABLE Orders (
+--     OrderID int NOT NULL,
+--     OrderNumber int NOT NULL,
+--     PersonID int,
+--     PRIMARY KEY (OrderID),
+--     FOREIGN KEY (PersonID) REFERENCES Persons(PersonID)
+-- );
