@@ -3561,7 +3561,7 @@ CREATE TABLE cust (
   CADDR1 varchar(255) default NULL,
   CADDR2 varchar(255) default NULL,
   TEL varchar(255) default NULL,
-  TCCODE varchar(255) default NULL,
+  TCCODE varchar(255) NOT NULL,
   IDNO varchar(255) default NULL,
   NAME_BILL varchar(255) default NULL,
   BADDR1 varchar(255) default NULL,
@@ -3575,7 +3575,8 @@ CREATE TABLE cust (
   NATION1 varchar(255) default NULL,
   SUSER varchar(255) default NULL,
   SDATE varchar(255) default NULL,
-  STIME varchar(255) default NULL
+  STIME varchar(255) default NULL,
+  PRIMARY KEY (CCODE)
 );
 
 
@@ -12365,7 +12366,7 @@ INSERT INTO mreserve1 VALUES("2566", "7", "MRS660700001", "13/07/2566", "2566071
 CREATE TABLE msanya1 (
   MYEAR varchar(4) default NULL,
   MONTHH float default NULL,
-  REFNO varchar(20) default NULL,
+  REFNO varchar(20) NOT NULL,
   RDATE varchar(10) default NULL,
   TRDATE varchar(255) default NULL,
   status varchar(50) default NULL,
@@ -12380,9 +12381,9 @@ CREATE TABLE msanya1 (
   TMCODE varchar(255) default NULL,
   visano varchar(255) default NULL,
   RMK2 varchar(255) default NULL,
-  RNO varchar(255) default NULL,
-  BDATE varchar(255) default NULL,
-  TBDATE varchar(255) default NULL,
+  RNO varchar(255),
+  BDATE varchar(255),
+  TBDATE varchar(255),
   EDATE varchar(255) default NULL,
   TEDATE varchar(255) default NULL,
   QTY varchar(255) default NULL,
@@ -12391,9 +12392,10 @@ CREATE TABLE msanya1 (
   GTOTAL double default '0',
   REFNO1 varchar(255) default NULL,
   RMK varchar(255) default NULL,
-  ENO double default '0'
+  ENO double default '0',
+  PRIMARY KEY (REFNO),
+  FOREIGN KEY (RNO) REFERENCES room1(RNO)
 );
-
 
 
 #
@@ -12582,7 +12584,7 @@ INSERT INTO msanya1dt VALUES("MSY661100015", "1", "022", "1", "19000", "19000", 
 #
 
 CREATE TABLE otas1 (
-  OCODE varchar(10) default NULL,
+  OCODE varchar(10) NOT NULL,
   ONAME varchar(255) default NULL,
   OADDR1 varchar(255) default NULL,
   OADDR2 varchar(255) default NULL,
@@ -12590,7 +12592,8 @@ CREATE TABLE otas1 (
   CONTACT1 varchar(255) default NULL,
   TAXID varchar(255) default NULL,
   acode1 varchar(255) default NULL,
-  acode2 varchar(255) default NULL
+  acode2 varchar(255) default NULL,
+  PRIMARY KEY (OCODE)
 );
 
 
@@ -14421,7 +14424,8 @@ INSERT INTO reserve1dt2 VALUES("DRS670100001", "1", "001", "1", "1150", "1150", 
 CREATE TABLE room1 (
   CLASS1 varchar(255) default NULL,
   TRCODE varchar(10) default NULL,
-  RNO varchar(50) default NULL
+  RNO varchar(50) NOT NULL,
+  PRIMARY KEY (RNO)
 );
 
 
@@ -14506,11 +14510,12 @@ INSERT INTO room1 VALUES("7", "05", "707");
 #
 
 CREATE TABLE room1_status (
-  RNO varchar(50) default NULL,
-  STATUS varchar(255) default NULL,
+  RNO varchar(255) NOT NULL,
+  status1 varchar(255) NOT NULL,
   RDATE varchar(255) default NULL,
-  TRDATE varchar(255) default NULL,
-  refno varchar(255) default NULL
+  TRDATE varchar(255) NOT NULL,
+  refno varchar(255) default NULL,
+  PRIMARY KEY (RNO, status1, TRDATE)
 );
 
 

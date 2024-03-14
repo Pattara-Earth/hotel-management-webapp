@@ -7,5 +7,6 @@
 --     OrderNumber int NOT NULL,
 --     PersonID int,
 --     PRIMARY KEY (OrderID),
---     FOREIGN KEY (PersonID) REFERENCES Persons(PersonID)
+--     FOREIGN KEY (PersonID) REFERENCES Persons(PersonID),
+--     PRIMARY KEY (AMCODE, PVCODE)
 -- );
