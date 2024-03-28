@@ -1,198 +1,152 @@
-var express = require('express')
-var cors = require('cors')
+const express = require('express')
 var bodyParser = require('body-parser')
-var jsonParser = bodyParser.json()
+var mysql = require('mysql2/promise');
 var app = express()
 
-app.use(cors())
+app.use(bodyParser.json())
 
-var mysql = require('mysql2');
+const port = 3000 // Define port
 
-var connection = mysql.createConnection({
-  host     : 'mysql_hotel',
-  user     : 'root',
-  password : '1150',
-  database : 'hotel',
-  port: 3306
-});
- 
-connection.connect();
-// connection.end();
+let conn = null // hold the database connection
 
-// --------------- Agent1 Routes ---------------
+// Initialize MySQL connection function
+const initMySQL = async () => {
+    conn = await mysql.createConnection({
+        host     : 'mysql_hotel',
+        user     : 'root',
+        password : '1150',
+        database : 'hotel',
+        port: 3306
+    })
+}
 
-// Handling GET request to retrieve all records from 'agent1' table
-app.get('/agent1', function (req, res, next) {
-  connection.query(
-    'SELECT * FROM agent1',
-    function(err, results, fields){
-      if (err){ res.json({status: 'error', message: err}); return }
-      res.json(results);
+// ------------------ type_room API Routes ------------------
+
+// Handling GET request to retrieve all records from 'type_room' table
+app.get('/api/type_room', async (req, res) => {
+    try {
+        const results = await conn.query('SELECT * FROM type_room')
+        res.json({status: 'ok', data: results[0]})
+    } catch (err) {
+        res.json({status: 'error', message: err})
     }
-  );
-})
-// Handling GET request to retrieve record by AGCODE from 'agent1' table
-app.get('/agent1/:AGCODE', function (req, res, next) {
-  connection.query(
-    'SELECT * FROM `agent1` WHERE AGCODE = ?',
-    [req.params.AGCODE],
-    function(err, results, fields){
-      if (err){ res.json({status: 'error', message: err}); return }
-      res.json(results);
-    }
-  );
-})
-// Handling POST request to create a new record in 'agent1' table
-app.post('/agent1/create', jsonParser, function (req, res, next){    
-  connection.execute(
-    'INSERT INTO `agent1` (AGCODE, AGNAME, AGADDR1, AGADDR2, TEL, CONTACT1) VALUES (?, ?, ?, ?, ?, ?)',
-    [req.body.AGCODE, req.body.AGNAME, req.body.AGADDR1, req.body.AGADDR2, req.body.TEL, req.body.CONTACT1],
-    function(err, results, fields){
-      if (err){res.json({status: 'error', message: err}); return }
-      res.json({status: 200, message: 'success'})
-    }
-  );
-})
-// Handling PUT request to update a record in 'agent1' table
-app.put('/agent1/update', jsonParser, function (req, res, next){
-  connection.execute(
-    'UPDATE `agent1` SET `AGNAME`= ?, `AGADDR1` = ? , `AGADDR2` = ? , `TEL` = ?, `CONTACT1` = ? WHERE `AGCODE`= ?',
-    [req.body.AGNAME, req.body.AGADDR1, req.body.AGADDR2, req.body.TEL, req.body.CONTACT1, req.body.AGCODE],
-    function(err, results, fields){
-      if (err){res.json({status: 'error', message: err}); return }
-      res.json({status: 200, message: 'success'})
-    }
-  );
-})
-// Handling DELETE request to delete a record from 'agent1' table
-app.delete('/agent1/delete', jsonParser, function (req, res, next){
-  connection.execute(
-    'DELETE FROM `agent1` WHERE `AGCODE` = ?',
-    [req.query.AGCODE],
-    function(err, results, fields){
-      if (err){res.json({status: 'error', message: err}); return }
-      res.json({status: 200, message: 'success'})
-    }
-  )
 })
 
-// --------------- Ampher Routes ---------------
-
-// Handling GET request to retrieve all records from 'ampher' table
-app.get('/ampher', function (req, res, next) {
-  connection.query(
-    'SELECT * FROM ampher',
-    function(err, results, fields){
-      if (err){ res.json({status: 'error', message: err}); return }
-      res.json(results);
+// Handling GET request to retrieve record by TRCODE from 'type_room' table
+app.get('/api/type_room/:TRCODE', async (req, res) => {
+    try {
+        const results = await conn.query(
+            'SELECT * FROM `type_room` WHERE TRCODE = ?', 
+            req.params.TRCODE
+        )
+        res.json({status: 'ok', data: results[0]})
+    } catch (err) {
+        res.json({status: 'error', message: err})
     }
-  );
-})
-// Handling GET request to retrieve record by AMCODE from 'ampher' table
-app.get('/ampher/:AMCODE', function (req, res, next) {
-  connection.query(
-    'SELECT * FROM `ampher` WHERE AMCODE = ?',
-    [req.params.AMCODE],
-    function(err, results, fields){
-      if (err){ res.json({status: 'error', message: err}); return }
-      res.json(results);
-    }
-  );
-})
-// Handling POST request to create a new record in 'ampher' table
-app.post('/ampher/create', jsonParser, function (req, res, next){    
-  connection.execute(
-    'INSERT INTO `ampher` (AMCODE, AMNAME, PVCODE) VALUES (?, ?, ?)',
-    [req.body.AMCODE, req.body.AMNAME, req.body.PVCODE],
-    function(err, results, fields){
-      if (err){res.json({status: 'error', message: err}); return }
-      res.json({status: 200, message: 'success'})
-    }
-  );
-})
-// Handling PUT request to update a record in 'ampher' table
-app.put('/ampher/update', jsonParser, function (req, res, next){
-  connection.execute(
-    'UPDATE `ampher` SET `AMNAME`= ?, `PVCODE` = ? WHERE `AMCODE`= ?',
-    [req.body.AMNAME, req.body.PVCODE, req.body.AMCODE],
-    function(err, results, fields){
-      if (err){res.json({status: 'error', message: err}); return }
-      res.json({status: 200, message: 'success'})
-    }
-  );
-})
-// Handling DELETE request to delete a record from 'ampher' table
-app.delete('/ampher/delete', jsonParser, function (req, res, next){
-  connection.execute(
-    'DELETE FROM `ampher` WHERE `AMCODE` = ?',
-    [req.query.AMCODE],
-    function(err, results, fields){
-      if (err){res.json({status: 'error', message: err}); return }
-      res.json({status: 200, message: 'success'})
-    }
-  )
 })
 
-// --------------- Room Types Routes ---------------
-
-// Handling GET request to retrieve all records from 'room_type' table
-app.get('/room-types', function (req, res, next) {
-  connection.query(
-    'SELECT * FROM type_room',
-    function(err, results, fields){
-      if (err){ res.json({status: 'error', message: err}); return }
-      res.json(results);
+// Handling POST request to create a new record in 'type_room' table
+app.post('/api/type_room', async (req, res) =>{
+    try {
+        const results = await conn.query('INSERT INTO `type_room` SET ?', req.body)
+        res.json({status: 'ok', data: results[0]})
+    } catch (err) {
+        res.json({status: 'error', message: err})
     }
-  );
-})
-// Handling GET request to retrieve record by TRCODE from 'room_type' table
-app.get('/room-types/:TRCODE', function (req, res, next) {
-  connection.query(
-    'SELECT * FROM `type_room` WHERE TRCODE = ?',
-    [req.params.AGCODE],
-    function(err, results, fields){
-      if (err){ res.json({status: 'error', message: err}); return }
-      res.json(results);
-    }
-  );
-})
-// Handling POST request to create a new record in 'room_type' table
-app.post('/room-types/create', jsonParser, function (req, res, next){    
-  connection.execute(
-    'INSERT INTO `room_type` (TRCODE, TRNAME, UPRICE, MUPRICE, UPRICE2, TRNAME1, type_bed) VALUES (?, ?, ?, ?, ?, ?, ?)',
-    [req.body.TRCODE, req.body.TRNAME, req.body.UPRICE, req.body.MUPRICE, req.body.UPRICE2, req.body.TRNAME1, req.body.type_bed],
-    function(err, results, fields){
-      if (err){res.json({status: 'error', message: err}); return }
-      res.json({status: 200, message: 'success'})
-    }
-  );
-})
-// Handling PUT request to update a record in 'room_type' table
-app.put('/room-types/update', jsonParser, function (req, res, next){
-  connection.execute(
-    'UPDATE `room_type` SET `TRNAME`= ?, `UPRICE` = ?, `MUPRICE` = ?, `UPRICE2` = ?, `TRNAME1` = ?, `type_bed` = ? WHERE `TRCODE`= ?',
-    [req.body.TRNAME, req.body.UPRICE, req.body.MUPRICE, req.body.UPRICE2, req.body.TRNAME1, req.body.type_bed, req.body.TRCODE],
-    function(err, results, fields){
-      if (err){res.json({status: 'error', message: err}); return }
-      res.json({status: 200, message: 'success'})
-    }
-  );
-})
-// Handling DELETE request to delete a record from 'room_type' table
-app.delete('/room-types/delete', jsonParser, function (req, res, next){
-  connection.execute(
-    'DELETE FROM `room_type` WHERE `TRCODE` = ?',
-    [req.query.TRCODE],
-    function(err, results, fields){
-      if (err){res.json({status: 'error', message: err}); return }
-      res.json({status: 200, message: 'success'})
-    }
-  )
 })
 
-// Starting Express server to listen on port 3000
-app.listen(3000, jsonParser, function () {
-  console.log('CORS-enabled rest api mysql server listening on port 3000')
+// Handling PUT request to update a record by TRCODE in 'type_room' table
+app.put('/api/type_room/:TRCODE', async (req, res) =>{
+    try {
+        const results = await conn.query(
+            'UPDATE `type_room` SET ? WHERE TRCODE = ?',
+            [req.body, req.params.TRCODE]
+        )
+        res.json({status: 'ok', data: results[0]})
+    } catch (err) {
+        res.json({status: 'error', message: err})
+    }
 })
 
+// Handling DELETE request to delete a record by TRCODE in 'type_room' table
+app.delete('/api/type_room/:TRCODE', async (req, res) => {
+    try {
+        const results = await conn.query(
+            'DELETE from `type_room` WHERE TRCODE = ?',
+            req.params.TRCODE
+        )
+        res.json({status: 'ok', data: results[0]})
+    } catch (err) {
+        res.json({status: 'error', message: err})
+    }  
+})
+
+// ------------------ room1 API Routes ------------------
+
+// Handling GET request to retrieve all records from 'room1' table
+app.get('/api/room1', async (req, res) => {
+    try {
+        const results = await conn.query('SELECT * FROM room1')
+        res.json({status: 'ok', data: results[0]})
+    } catch (err) {
+        res.json({status: 'error', message: err})
+    }
+})
+
+// Handling GET request to retrieve record by RNO from 'room1' table
+app.get('/api/room1/:RNO', async (req, res) => {
+    try {
+        const results = await conn.query(
+            'SELECT * FROM `room1` WHERE RNO = ?', 
+            req.params.RNO
+        )
+        res.json({status: 'ok', data: results[0]})
+    } catch (err) {
+        res.json({status: 'error', message: err})
+    }
+})
+
+// Handling POST request to create a new record in 'room1' table
+app.post('/api/room1', async (req, res) =>{
+    try {
+        const results = await conn.query('INSERT INTO `room1` SET ?', req.body)
+        res.json({status: 'ok', data: results[0]})
+    } catch (err) {
+        res.json({status: 'error', message: err})
+    }
+})
+
+// Handling PUT request to update a record by RNO in 'room1' table
+app.put('/api/room1/:RNO', async (req, res) =>{
+    try {
+        const results = await conn.query(
+            'UPDATE `room1` SET ? WHERE RNO = ?',
+            [req.body, req.params.RNO]
+        )
+        res.json({status: 'ok', data: results[0]})
+    } catch (err) {
+        res.json({status: 'error', message: err})
+    }
+})
+
+// Handling DELETE request to delete a record by RNO in 'room1' table
+app.delete('/api/room1/:RNO', async (req, res) => {
+    try {
+        const results = await conn.query(
+            'DELETE from `room1` WHERE RNO = ?',
+            req.params.RNO
+        )
+        res.json({status: 'ok', data: results[0]})
+    } catch (err) {
+        res.json({status: 'error', message: err})
+    }  
+})
+
+// ------------------ room1_status API Routes ------------------
+
+// Starting Express server to listen on port 
+app.listen(port, async (req, res) => {
+    await initMySQL()
+    console.log('CORS-enabled rest api server listening on port ' + port)
+})
 

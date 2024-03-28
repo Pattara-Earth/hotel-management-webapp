@@ -105,6 +105,71 @@ INSERT INTO room1 VALUES("3", "02", "301");
 INSERT INTO room1 VALUES("3", "01", "302");
 INSERT INTO room1 VALUES("3", "01", "308");
 INSERT INTO room1 VALUES("3", "01", "309");
+INSERT INTO room1 VALUES("3", "01", "310");
+INSERT INTO room1 VALUES("3", "02", "311");
+INSERT INTO room1 VALUES("3", "01", "312");
+INSERT INTO room1 VALUES("3", "01", "314");
+INSERT INTO room1 VALUES("4", "02", "401");
+INSERT INTO room1 VALUES("4", "01", "402");
+INSERT INTO room1 VALUES("4", "02", "408");
+INSERT INTO room1 VALUES("4", "02", "409");
+INSERT INTO room1 VALUES("4", "02", "410");
+INSERT INTO room1 VALUES("4", "02", "411");
+INSERT INTO room1 VALUES("4", "02", "412");
+INSERT INTO room1 VALUES("4", "02", "414");
+INSERT INTO room1 VALUES("5", "02", "506");
+INSERT INTO room1 VALUES("5", "02", "509");
+INSERT INTO room1 VALUES("5", "02", "510");
+INSERT INTO room1 VALUES("5", "02", "511");
+INSERT INTO room1 VALUES("3", "03", "303");
+INSERT INTO room1 VALUES("3", "04", "304");
+INSERT INTO room1 VALUES("3", "04", "305");
+INSERT INTO room1 VALUES("3", "04", "306");
+INSERT INTO room1 VALUES("3", "04", "307");
+INSERT INTO room1 VALUES("3", "04", "315");
+INSERT INTO room1 VALUES("4", "03", "403");
+INSERT INTO room1 VALUES("4", "04", "404");
+INSERT INTO room1 VALUES("4", "04", "405");
+INSERT INTO room1 VALUES("4", "04", "406");
+INSERT INTO room1 VALUES("4", "04", "407");
+INSERT INTO room1 VALUES("4", "04", "415");
+INSERT INTO room1 VALUES("5", "04", "502");
+INSERT INTO room1 VALUES("5", "03", "503");
+INSERT INTO room1 VALUES("5", "03", "504");
+INSERT INTO room1 VALUES("5", "04", "505");
+INSERT INTO room1 VALUES("5", "04", "508");
+INSERT INTO room1 VALUES("5", "04", "512");
+INSERT INTO room1 VALUES("5", "04", "514");
+INSERT INTO room1 VALUES("5", "04", "515");
+INSERT INTO room1 VALUES("5", "05", "501");
+INSERT INTO room1 VALUES("5", "05", "507");
+INSERT INTO room1 VALUES("6", "02", "606");
+INSERT INTO room1 VALUES("6", "02", "609");
+INSERT INTO room1 VALUES("6", "02", "610");
+INSERT INTO room1 VALUES("6", "02", "611");
+INSERT INTO room1 VALUES("7", "02", "706");
+INSERT INTO room1 VALUES("6", "04", "602");
+INSERT INTO room1 VALUES("6", "03", "603");
+INSERT INTO room1 VALUES("6", "03", "604");
+INSERT INTO room1 VALUES("6", "04", "605");
+INSERT INTO room1 VALUES("6", "04", "608");
+INSERT INTO room1 VALUES("6", "04", "612");
+INSERT INTO room1 VALUES("6", "04", "614");
+INSERT INTO room1 VALUES("6", "04", "615");
+INSERT INTO room1 VALUES("7", "04", "702");
+INSERT INTO room1 VALUES("7", "03", "703");
+INSERT INTO room1 VALUES("7", "03", "704");
+INSERT INTO room1 VALUES("7", "04", "705");
+INSERT INTO room1 VALUES("7", "04", "708");
+INSERT INTO room1 VALUES("7", "04", "709");
+INSERT INTO room1 VALUES("7", "04", "710");
+INSERT INTO room1 VALUES("7", "04", "711");
+INSERT INTO room1 VALUES("7", "04", "712");
+INSERT INTO room1 VALUES("7", "04", "714");
+INSERT INTO room1 VALUES("6", "05", "601");
+INSERT INTO room1 VALUES("6", "05", "607");
+INSERT INTO room1 VALUES("7", "05", "701");
+INSERT INTO room1 VALUES("7", "05", "707");
 
 #
 # Table structure for table 'otas1'
@@ -147,25 +212,25 @@ CREATE TABLE msanya1 (
   STIME varchar(255) default NULL,
   SUSER varchar(255) default NULL,
   CCODE varchar(255) default NULL,
-  PAY1 double default '0',
+  PAY1 double default 0,
   BCODE varchar(255) default NULL,
   BNO varchar(255) default NULL,
   RMK1 varchar(255) default NULL,
   TMCODE varchar(255) default NULL,
   VISANO varchar(255) default NULL,
   RMK2 varchar(255) default NULL,
-  RNO varchar(255),
-  BDATE varchar(255),
-  TBDATE varchar(255),
+  RNO varchar(255) default NULL,
+  BDATE varchar(255) default NULL,
+  TBDATE varchar(255) default NULL,
   EDATE varchar(255) default NULL,
   TEDATE varchar(255) default NULL,
   QTY varchar(255) default NULL,
   UPRICE varchar(255) default NULL,
-  TOTAL double default '0',
-  GTOTAL double default '0',
+  TOTAL double default 0,
+  GTOTAL double default 0,
   REFNO1 varchar(255) default NULL,
   RMK varchar(255) default NULL,
-  ENO double default '0',
+  ENO double default 0
 );
 
 #
@@ -200,8 +265,8 @@ CREATE TABLE type_room (
 # Dumping data for table 'type_room'
 #
 
-INSERT INTO type_room VALUES("01", "Studio-Twin", "1150", "1050", "15000", "ST", "Twin Bed");
-INSERT INTO type_room VALUES("02", "Studio-Double", "1150", "1050", "15000", "SD", "Double Bed");
-INSERT INTO type_room VALUES("03", "1 Bed Room -T", "1450", "1300", "15000", "1BT", "Twin Bed");
-INSERT INTO type_room VALUES("04", "1 Bed Room-D", "1450", "1000", "19000", "1BD", "Double Bed");
-INSERT INTO type_room VALUES("05", "2 Bed Room", "1700", "1700", "25000", "2B", "-");
+INSERT INTO type_room VALUES("01", "Studio-Twin", 1150, 1050, 15000, "ST", "Twin Bed");
+INSERT INTO type_room VALUES("02", "Studio-Double", 1150, 1050, 15000, "SD", "Double Bed");
+INSERT INTO type_room VALUES("03", "1 Bed Room -T", 1450, 1300, 15000, "1BT", "Twin Bed");
+INSERT INTO type_room VALUES("04", "1 Bed Room-D", 1450, 1000, 19000, "1BD", "Double Bed");
+INSERT INTO type_room VALUES("05", "2 Bed Room", 1700, 1700, 25000, "2B", "-");
