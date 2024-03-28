@@ -46,7 +46,7 @@ app.get('/api/type_room/:TRCODE', async (req, res) => {
 })
 
 // Handling POST request to create a new record in 'type_room' table
-app.post('/api/type_room', async (req, res) =>{
+app.post('/api/type_room', async (req, res) => {
     try {
         const results = await conn.query('INSERT INTO `type_room` SET ?', req.body)
         res.json({status: 'ok', data: results[0]})
@@ -56,7 +56,7 @@ app.post('/api/type_room', async (req, res) =>{
 })
 
 // Handling PUT request to update a record by TRCODE in 'type_room' table
-app.put('/api/type_room/:TRCODE', async (req, res) =>{
+app.put('/api/type_room/:TRCODE', async (req, res) => {
     try {
         const results = await conn.query(
             'UPDATE `type_room` SET ? WHERE TRCODE = ?',
@@ -107,7 +107,7 @@ app.get('/api/room1/:RNO', async (req, res) => {
 })
 
 // Handling POST request to create a new record in 'room1' table
-app.post('/api/room1', async (req, res) =>{
+app.post('/api/room1', async (req, res) => {
     try {
         const results = await conn.query('INSERT INTO `room1` SET ?', req.body)
         res.json({status: 'ok', data: results[0]})
@@ -117,7 +117,7 @@ app.post('/api/room1', async (req, res) =>{
 })
 
 // Handling PUT request to update a record by RNO in 'room1' table
-app.put('/api/room1/:RNO', async (req, res) =>{
+app.put('/api/room1/:RNO', async (req, res) => {
     try {
         const results = await conn.query(
             'UPDATE `room1` SET ? WHERE RNO = ?',
